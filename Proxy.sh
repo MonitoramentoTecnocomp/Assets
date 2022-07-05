@@ -21,7 +21,7 @@ read uninstallDocker
 if [[ $uninstallDocker = "s" || $uninstallDocker = "S" ]] 
 then 
     echo "Verificando e removendo o Docker Engine instalado"
-    yum remove -y docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine
+    yum remove -y docker*
 
 elif [[ $uninstallDocker = "n" || $uninstallDocker = "N" ]]
 then 
@@ -37,8 +37,8 @@ yum install -y yum-utils
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
 # Instalação do Docker Engine
-yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-
+yum install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+systemctl restart docker
 ## Preparação do Zabbix Proxy
 clear
 
@@ -54,7 +54,7 @@ read proxyName
 mkdir /etc/zabbix/
 
 # Instalação do Zabbix Agent2 (Opcional, o Proxy pode monitorar suas funções básicas)
-docker run --name ZabbixAgent2 --privileged -e ZBX_HOSTNAME="$proxyName" -e ZBX_SERVER_HOST="localhost" -d zabbix/zabbix-agent2:$versionTag
+docker run --name ZabbixAgent2 --privileged -v /etc/zabbix/:/etc/zabbix -e ZBX_HOSTNAME="$proxyName" -e ZBX_SERVER_HOST="localhost" -d zabbix/zabbix-agent2:$versionTag
 
 # Instalação do Zabbix Proxy
-docker run --name ZabbixProxy --privileged -e ZBX_HOSTNAME="$proxyName" -e ZBX_SERVER_HOST="$zabbixServer" -d zabbix/zabbix-proxy-sqlite3:$versionTag
+docker run --name ZabbixProxy --privileged -v /etc/zabbix/:/etc/zabbix -e ZBX_HOSTNAME="$proxyName" -e ZBX_SERVER_HOST="$zabbixServer" -d zabbix/zabbix-proxy-sqlite3:$versionTag
