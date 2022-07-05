@@ -2,8 +2,6 @@
 
 ## Introdução do Script
 clear
-echo ""
-echo ""
 echo "Instalação do Zabbix Proxy 6.0.x LTS [SQLite3 em Docker]"
 echo "Desenvolvido para RHEL 8 | CentOS 8 | Oracle Linux 8 "
 echo ""
@@ -12,8 +10,6 @@ echo ""
 ## Verificação de acesso administrativo [SUDO]
 if [ "$EUID" -ne 0 ]
     then echo "Por favor, inicie o script usando um acesso administrativo!"
-    echo ""
-    echo ""
     exit
 fi
 
@@ -50,15 +46,17 @@ clear
 zabbixServer="proxy.tecnocomp.com.br"           # IP ou DNS do Zabbix Server
 versionTag="6.0-centos-latest"                  # Define a variável de versão utilizada (Padrão: 6.0 CentOS Latest)
 
+echo ""
 echo "Zabbix Server: $zabbixServer"
 echo "Digite o Proxy Name da maquina: "
+echo ""
 read proxyName
 
 # Diretório padrão na maquina host
 mkdir /etc/zabbix/
 
 # Instalação do Zabbix Agent2 (Opcional, o Proxy pode monitorar suas funções básicas)
-docker run --name ZabbixAgent2 --privileged -v /etc/zabbix/:/etc/zabbix -e ZBX_HOSTNAME="$proxyName" -e ZBX_SERVER_HOST="localhost" -d zabbix/zabbix-agent2:$versionTag
+docker run --name ZabbixAgent2 --privileged -e ZBX_HOSTNAME="$proxyName" -e ZBX_SERVER_HOST="localhost" -d zabbix/zabbix-agent2:$versionTag
 
 # Instalação do Zabbix Proxy
-docker run --name ZabbixProxy --privileged -v /etc/zabbix/:/etc/zabbix -e ZBX_HOSTNAME="$proxyName" -e ZBX_SERVER_HOST="$zabbixServer" -d zabbix/zabbix-proxy-sqlite3:$versionTag
+docker run --name ZabbixProxy --privileged -e ZBX_HOSTNAME="$proxyName" -e ZBX_SERVER_HOST="$zabbixServer" -d zabbix/zabbix-proxy-sqlite3:$versionTag
