@@ -2,6 +2,8 @@
 
 ## Introdução do Script
 clear
+echo ""
+echo ""
 echo "Instalação do Zabbix Proxy 6.0.x LTS [SQLite3 em Docker]"
 echo "Desenvolvido para RHEL 8 | CentOS 8 | Oracle Linux 8 "
 echo ""
@@ -10,6 +12,8 @@ echo ""
 ## Verificação de acesso administrativo [SUDO]
 if [ "$EUID" -ne 0 ]
     then echo "Por favor, inicie o script usando um acesso administrativo!"
+    echo ""
+    echo ""
     exit
 fi
 
