@@ -1,3 +1,0 @@
-#!/bin/bash
-
-sudo cloudflared service install eyJhIjoiMDUwMjUyN2I5ZjM2YzcyZDdhNGNmYWMyNTEzMzZlMzEiLCJ0IjoiOGQ0YTJiMzMtY2FlYS00NDJmLWFlOTktYTEwYTdlNWZiNmQ3IiwicyI6IllUQTNaakF6TVdFdFl6aGtOQzAwTm1NeExUa3paR1l0TVRnMVpESTVZVEUzTlRWayJ9
